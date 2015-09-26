@@ -7,7 +7,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 		// If user is not signed in then redirect back home
 		if (!$scope.user) $location.path('/');
 
-		// Check if there are additional accounts 
+		// Check if there are additional accounts
 		$scope.hasConnectedAdditionalSocialAccounts = function(provider) {
 			for (var i in $scope.user.additionalProvidersData) {
 				return true;
@@ -52,6 +52,27 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 				});
 			} else {
 				$scope.submitted = true;
+			}
+		};
+
+		// Update a user profile
+		$scope.saveCharacter = function(isValid) {
+			if (isValid) {
+				console.log('jjh');
+				$scope.success = $scope.error = null;
+				var user = new Users($scope.user);
+
+				user.$update(function(response) {
+					$scope.success = true;
+					Authentication.user = response;
+					$location.path('/');
+				}, function(response) {
+					$scope.error = response.data.message;
+
+				});
+			} else {
+				$scope.submitted = true;
+
 			}
 		};
 
