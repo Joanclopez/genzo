@@ -7,7 +7,7 @@ angular.module('games').config(['$stateProvider',
 		$stateProvider.
 		state('listGames', {
 			url: '/games',
-			templateUrl: 'modules/games/views/list-games.client.view.html'
+			templateUrl: 'modules/games/views/main-view.client.view.html'
 		}).
 		state('createGame', {
 			url: '/games/create',
@@ -21,5 +21,6 @@ angular.module('games').config(['$stateProvider',
 			url: '/games/:gameId/edit',
 			templateUrl: 'modules/games/views/edit-game.client.view.html'
 		});
+
 	}
 ]);

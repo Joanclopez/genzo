@@ -63,6 +63,10 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			});
 		};
 
+		$scope.mainView = function() {
+
+		}
+
 
 
 
@@ -85,6 +89,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			loader.addEventListener("complete", handleComplete);
 			loader.loadManifest(manifest, true, "/modules/games/img/");
 		}
+
 		function handleComplete() {
 			sky = new createjs.Shape();
 			sky.graphics.beginBitmapFill(loader.getResult("sky")).drawRect(0, 0, w, h);
