@@ -22,6 +22,8 @@ exports.create = function(req, res) {
 			});
 		} else {
 			res.jsonp(game);
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('action', game); // emit an event for all connected clients
 		}
 	});
 };
@@ -72,7 +74,7 @@ exports.delete = function(req, res) {
 /**
  * List of Games
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
 	Game.find().sort('-created').populate('user', 'displayName').exec(function(err, games) {
 		if (err) {
 			return res.status(400).send({
@@ -87,7 +89,7 @@ exports.list = function(req, res) {
 /**
  * Game middleware
  */
-exports.gameByID = function(req, res, next, id) { 
+exports.gameByID = function(req, res, next, id) {
 	Game.findById(id).populate('user', 'displayName').exec(function(err, game) {
 		if (err) return next(err);
 		if (! game) return next(new Error('Failed to load Game ' + id));

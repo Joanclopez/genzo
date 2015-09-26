@@ -1,9 +1,12 @@
 'use strict';
 
 // Games controller
-angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games',
-	function($scope, $stateParams, $location, Authentication, Games) {
+angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket',
+	function($scope, $stateParams, $location, Authentication, Games,Socket) {
 		$scope.authentication = Authentication;
+		Socket.on('action', function(action) {
+		    console.log(action);
+		});
 
 		// Create new Game
 		$scope.create = function() {
