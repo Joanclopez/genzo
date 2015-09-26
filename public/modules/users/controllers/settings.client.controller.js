@@ -58,7 +58,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 		// Update a user profile
 		$scope.saveCharacter = function(isValid) {
 			if (isValid) {
-				console.log('jjh');
 				$scope.success = $scope.error = null;
 				var user = new Users($scope.user);
 
