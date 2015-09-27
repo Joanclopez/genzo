@@ -92,7 +92,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			});
 		};
 
-		$scope.player1Emit=function(){
+		$scope.player1Emit=function(action){
 			console.log('estoy enviando');
 			// 			console.log($scope.emitir);
 			// console.log(Socket);
@@ -109,7 +109,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			$http.post('/player1', {action:
 				{
 				danmage:$scope.emitir,
-				action:$scope.actionSprite
+				action:action
 				}
 			}).success(function(response){
 				console.log(response);
@@ -117,7 +117,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 		};
 
-		$scope.player2Emit=function(){
+		$scope.player2Emit=function(action){
 			$scope.emitir=$scope.danmage();
 			console.log($scope.emitir);
 			$scope.actionSprite=0;
@@ -125,7 +125,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			$scope.selectWinner();
 			$http.post('/player2', {action:	{
 				danmage:$scope.emitir,
-				action:$scope.actionSprite
+				action:action
 				}
 			}).success(function(response){
 				console.log(response);
@@ -228,18 +228,22 @@ $scope.selectWinner=function(){
 					case 'circle':
 					console.log(gesture.type);
 						action = 1;
+						if($scope.authentication.user._id == $scope.game.player1._id) {
+							$scope.player1Emit(action);
+						} else {
+							$scope.player2Emit(action);
+						}
 						break;
 					case 'keyTap':
 						action = 0;
+						if($scope.authentication.user._id == $scope.game.player1._id) {
+							$scope.player1Emit(action);
+						} else {
+							$scope.player2Emit(action);
+						}
+
 						break;
-
 				}
-				if($scope.authentication.user._id == $scope.game.player1._id) {
-					$scope.player1Emit();
-				} else {
-					$scope.player2Emit();
-				}
-
 			}
 
 		});
