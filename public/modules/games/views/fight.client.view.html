@@ -5,33 +5,177 @@
         Esperando  segundo player
         <img src="modules/core/img/loaders/loader.gif" alt="">
       </div>
-      <div ng-show="player2._id">
-        <p>
-          El player 2 a llegado es
-        </p>
-        <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
-        <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
-        <p>{{player2.username}}</p>
-        <h3>Ya comenzo la pelea, ve el holograma</h3>
-        <label for="ejemplo_email_1">Ataque</label>
-        <input type="text" ng-model="emitir"class="form-control" id="ataque"
-         placeholder="ataque">
-         <button ng-click="player1Emit()" class="btn btn-default">enviar ataque</button>
+      <div ng-show="game.player1._id">
+        <div class="PanelInformation col-md-3">
+      		<div class="PanelInformation-characterName">
+      			<h2>{{game.player1.username}}</h2>
+      		</div>
+      		<figure class="PanelInformation-characterImage">
+            <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+            <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+
+      		</figure>
+      		<div class="PanelInformation-status">
+      			<h3>Life</h3>
+      			<div class="progress">
+      				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+      					<span class="sr-only">40% Complete (success)</span>
+      				</div>
+      			</div>
+      		</div>
+      		<div class="PanelInformation-skills">
+      			<ul class="PanelInformation-listSkills">
+      				<li class="PanelInformatino-itemSkill">
+      					Psyco - circle
+      				</li>
+      				<li class="PanelInformatino-itemSkill">
+      					Surf - swipe
+      				</li>
+      				<li class="PanelInformatino-itemSkill">
+      					Iron - HandClose
+      				</li>
+      			</ul>
+      			<div class="PanelInformation-exit">
+      				<button class="PanelInformation-button">
+      					Finish
+      				</button>
+      			</div>
+      		</div>
+
+      	</div>
+        <div class="PanelBattle col-md-6">
+      			<div class="PanelBattle-attack">
+      				<span class="PanelBattle-text">
+      						Psyco Attack
+      				</span>
+      			</div>
+      	</div>
+        <div ng-show="player2._id">
+          <div class="PanelInformation col-md-3">
+        		<div class="PanelInformation-characterName">
+        			<h2>{{player2.username}}</h2>
+        		</div>
+        		<figure class="PanelInformation-characterImage">
+              <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+              <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+
+        		</figure>
+        		<div class="PanelInformation-status">
+        			<h3>Life</h3>
+        			<div class="progress">
+        				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+        					<span class="sr-only">40% Complete (success)</span>
+        				</div>
+        			</div>
+        		</div>
+        		<div class="PanelInformation-skills">
+        			<ul class="PanelInformation-listSkills">
+        				<li class="PanelInformatino-itemSkill">
+        					Psyco - circle
+        				</li>
+        				<li class="PanelInformatino-itemSkill">
+        					Surf - swipe
+        				</li>
+        				<li class="PanelInformatino-itemSkill">
+        					Iron - HandClose
+        				</li>
+        			</ul>
+        			<div class="PanelInformation-exit">
+        				<button class="PanelInformation-button">
+        					Finish
+        				</button>
+        			</div>
+        		</div>
+
+        	</div>
+        </div>
       </div>
     </div>
+
     <div ng-show="game.player1._id!=authentication.user._id">
-      <div>
-        <p>
-          El player 1 es
-        </p>
-        <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
-        <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
-        <p>{{game.player1.username}}</p>
-        <h3>Ya comenzo la pelea, ve el holograma</h3>
-        <label for="ejemplo_email_1">Ataque</label>
-        <input type="text" ng-model="emitir"class="form-control" id="ataque"
-         placeholder="ataque">
-         <button ng-click="player2Emit()" class="btn btn-default">enviar ataque</button>
+      <div class="PanelInformation col-md-3">
+    		<div class="PanelInformation-characterName">
+    			<h2>{{player2.username}}</h2>
+    		</div>
+    		<figure class="PanelInformation-characterImage">
+          <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+          <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+
+    		</figure>
+    		<div class="PanelInformation-status">
+    			<h3>Life</h3>
+    			<div class="progress">
+    				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+    					<span class="sr-only">40% Complete (success)</span>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="PanelInformation-skills">
+    			<ul class="PanelInformation-listSkills">
+    				<li class="PanelInformatino-itemSkill">
+    					Psyco - circle
+    				</li>
+    				<li class="PanelInformatino-itemSkill">
+    					Surf - swipe
+    				</li>
+    				<li class="PanelInformatino-itemSkill">
+    					Iron - HandClose
+    				</li>
+    			</ul>
+    			<div class="PanelInformation-exit">
+    				<button class="PanelInformation-button">
+    					Finish
+    				</button>
+    			</div>
+    		</div>
+
+    	</div>
+      <div class="PanelBattle col-md-6">
+          <div class="PanelBattle-attack">
+            <span class="PanelBattle-text">
+                Psyco Attack
+            </span>
+          </div>
       </div>
+      <div ng-show="game.player1._id">
+        <div class="PanelInformation col-md-3">
+          <div class="PanelInformation-characterName">
+            <h2>{{game.player1.username}}</h2>
+          </div>
+          <figure class="PanelInformation-characterImage">
+            <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+            <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+
+          </figure>
+          <div class="PanelInformation-status">
+            <h3>Life</h3>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                <span class="sr-only">40% Complete (success)</span>
+              </div>
+            </div>
+          </div>
+          <div class="PanelInformation-skills">
+            <ul class="PanelInformation-listSkills">
+              <li class="PanelInformatino-itemSkill">
+                Psyco - circle
+              </li>
+              <li class="PanelInformatino-itemSkill">
+                Surf - swipe
+              </li>
+              <li class="PanelInformatino-itemSkill">
+                Iron - HandClose
+              </li>
+            </ul>
+            <div class="PanelInformation-exit">
+              <button class="PanelInformation-button">
+                Finish
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 </section>
