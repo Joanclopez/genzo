@@ -1,8 +1,8 @@
 'use strict';
 
 // Games controller
-angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http',
-	function($scope, $stateParams, $location, Authentication, Games,Socket,$http) {
+angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http','$timeout',
+	function($scope, $stateParams, $location, Authentication, Games,Socket,$http, $timeout) {
 		$scope.authentication = Authentication;
 		$scope.player1Life=100;
 		$scope.player2Life=100;
@@ -92,7 +92,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			});
 		};
 
-		$scope.player1Emit=function(){
+		$scope.player1Emit=function(action){
 			console.log('estoy enviando');
 			// 			console.log($scope.emitir);
 			// console.log(Socket);
@@ -103,13 +103,13 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			console.log($scope.emitir);
 
 			$scope.emitir=$scope.danmage();
-			$scope.player2Life=$scope.player2Life-($scope.emitir*100);
-
+			$scope.player2Life=$scope.player2Life-($scope.emitir);
+			$scope.selectWinner();
 
 			$http.post('/player1', {action:
 				{
 				danmage:$scope.emitir,
-				action:$scope.actionSprite
+				action:action
 				}
 			}).success(function(response){
 				console.log(response);
@@ -117,14 +117,15 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 		};
 
-		$scope.player2Emit=function(){
+		$scope.player2Emit=function(action){
 			$scope.emitir=$scope.danmage();
 			console.log($scope.emitir);
 			$scope.actionSprite=0;
-			$scope.player1Life=$scope.player1Life-($scope.emitir*100);
+			$scope.player1Life=$scope.player1Life-($scope.emitir);
+			$scope.selectWinner();
 			$http.post('/player2', {action:	{
 				danmage:$scope.emitir,
-				action:$scope.actionSprite
+				action:action
 				}
 			}).success(function(response){
 				console.log(response);
@@ -153,12 +154,14 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				if (response.player1._id+''==$scope.authentication.user._id) {
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
-						$scope.player1Life=$scope.player1Life-(actions.danmage*100);
+						$scope.player1Life=$scope.player1Life-(actions.danmage);
+						$scope.selectWinner();
 					});
 				}else {
 					Socket.on('player1/', function(actions) {
 						console.log(actions);
-						$scope.player2Life=$scope.player2Life-(actions.danmage*100);
+						$scope.player2Life=$scope.player2Life-(actions.danmage);
+						$scope.selectWinner();
 
 					});
 
@@ -169,12 +172,28 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 						 console.log(player);
 						 if (player.player2) {
 						 	$scope.player2=player.player2;
+							startLeapService();
 						 }
 
 				});
 			});
+
 		};
 
+$scope.selectWinner=function(){
+
+	if($scope.player1Life<0){
+		$scope.winner="player2"
+		$timeout(function(){
+				$location.path('games');
+			}, 3000);
+	}else	if($scope.player2Life<0){
+			$scope.winner="player1"
+			$timeout(function(){
+					$location.path('games');
+				}, 3000);
+		};
+};
 		$scope.mainView = function() {
 
 		}
@@ -186,76 +205,54 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 
 
-		var stage, w, h, loader, manifest;
-		var sky, grant, ground, hill, hill2;
-		$scope.init=function() {
-			//examples.showDistractor();
-			stage = new createjs.Stage("testCanvas");
-			// grab canvas width and height for later calculations:
-			w = stage.canvas.width;
-			h = stage.canvas.height;
-			manifest = [
-				{src: "spritesheet_grant.png", id: "grant"},
-				{src: "sky.png", id: "sky"},
-				{src: "ground.png", id: "ground"},
-				{src: "hill1.png", id: "hill"},
-				{src: "hill2.png", id: "hill2"}
-			];
-			loader = new createjs.LoadQueue(false);
-			loader.addEventListener("complete", handleComplete);
-			loader.loadManifest(manifest, true, "/modules/games/img/");
-		}
+	function startLeapService() {
+		var action;
+		var controller = Leap.loop({enableGestures: true}, function(frame) {
 
-		function handleComplete() {
-			sky = new createjs.Shape();
-			sky.graphics.beginBitmapFill(loader.getResult("sky")).drawRect(0, 0, w, h);
-			var groundImg = loader.getResult("ground");
-			ground = new createjs.Shape();
-			ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w + groundImg.width, groundImg.height);
-			ground.tileW = groundImg.width;
-			ground.y = h - groundImg.height;
-			hill = new createjs.Bitmap(loader.getResult("hill"));
-			hill.setTransform(Math.random() * w, h - hill.image.height * 4 - groundImg.height, 4, 4);
-			hill.alpha = 0.5;
-			hill2 = new createjs.Bitmap(loader.getResult("hill2"));
-			hill2.setTransform(Math.random() * w, h - hill2.image.height * 3 - groundImg.height, 3, 3);
-			var spriteSheet = new createjs.SpriteSheet({
-				framerate: 30,
-				"images": [loader.getResult("grant")],
-				"frames": {"regX": 82, "height": 292, "count": 64, "regY": 0, "width": 165},
-				// define two animations, run (loops, 1.5x speed) and jump (returns to run):
-				"animations": {
-					"run": [0, 25, "run", 1.5],
-					"jump": [26, 63, "run"]
+			if(frame.valid && frame.gestures.length > 0) {
+				var otherFrame = controller.frame();
+				if(otherFrame.hands.length == 1) {
+					console.log(typeAttack(otherFrame));
 				}
-			});
-			grant = new createjs.Sprite(spriteSheet, "run");
-			grant.y = 35;
-			stage.addChild(sky, hill, hill2, ground, grant);
-			stage.addEventListener("stagemousedown", handleJumpStart);
-			createjs.Ticker.timingMode = createjs.Ticker.RAF;
-			createjs.Ticker.addEventListener("tick", tick);
-		}
-		function handleJumpStart() {
-			grant.gotoAndPlay("jump");
-		}
-		function tick(event) {
-			var deltaS = event.delta / 1000;
-			var position = grant.x + 150 * deltaS;
-			var grantW = grant.getBounds().width * grant.scaleX;
-			grant.x = (position >= w + grantW) ? -grantW : position;
-			ground.x = (ground.x - deltaS * 150) % ground.tileW;
-			hill.x = (hill.x - deltaS * 30);
-			if (hill.x + hill.image.width * hill.scaleX <= 0) {
-				hill.x = w;
 			}
-			hill2.x = (hill2.x - deltaS * 45);
-			if (hill2.x + hill2.image.width * hill2.scaleX <= 0) {
-				hill2.x = w;
-			}
-			stage.update(event);
-		}
-
-		$('.spriteP1').sprite({fps: 6, no_of_frames: 6});
+		});
 	}
+
+	function typeAttack(frameController) {
+		var action;
+		var flag = false
+		frameController.gestures.forEach(function(gesture) {
+			if(!flag) {
+				switch (gesture.type) {
+
+					case 'circle':
+					console.log(gesture.type);
+						action = 1;
+						if($scope.authentication.user._id == $scope.game.player1._id) {
+							$scope.player1Emit(action);
+						} else {
+							$scope.player2Emit(action);
+						}
+						break;
+					case 'keyTap':
+						action = 0;
+						if($scope.authentication.user._id == $scope.game.player1._id) {
+							$scope.player1Emit(action);
+						} else {
+							$scope.player2Emit(action);
+						}
+
+						break;
+				}
+			}
+
+		});
+		flag = true;
+		return action;
+	}
+
+
+
+
+		}
 ]);

@@ -1,11 +1,12 @@
 <section class="view-content" data-ng-controller="GamesController" data-ng-init="findOne()">
     <!-- <canvas id="testCanvas" width="960" height="400"></canvas> -->
+  <div ng-show="!winner">
     <div ng-show="game.player1._id==authentication.user._id">
       <div ng-show="!player2._id">
         Esperando  segundo player
         <img id="loading" src="modules/core/img/loaders/loader.gif" alt="">
       </div>
-      <div ng-show="game.player1._id">
+      <div ng-show="player2._id">
         <div class="PanelInformation col-md-3">
       		<div class="PanelInformation-characterName">
       			<h2>{{game.player1.username}}</h2>
@@ -175,4 +176,17 @@
       </div>
 
     </div>
+  </div>
+  <div ng-show="game.player1._id==authentication.user._id&&winner=='player1'">
+    <h1>Ganaste!!!!!</h1>
+  </div>
+  <div ng-show="game.player1._id!=authentication.user._id&&winner=='player2'">
+    <h1>Ganaste!!!!</h1>
+  </div>
+  <div ng-show="game.player1._id==authentication.user._id&&winner=='player2'">
+    <h1>Perdiste!!!!!</h1>
+  </div>
+  <div ng-show="game.player1._id!=authentication.user._id&&winner=='player1'">
+    <h1>Perdiste!!!!</h1>
+  </div>
 </section>
