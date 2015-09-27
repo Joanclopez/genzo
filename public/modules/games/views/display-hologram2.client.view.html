@@ -1,0 +1,17 @@
+<section data-ng-controller="GamesController" ng-init="viewHolograms()">
+    <!-- <canvas id="testCanvas" width="960" height="400"></canvas> -->
+    <div ng-show="!player2._id">
+      Esperando player2
+      <img src="modules/core/img/loaders/loader.gif" alt="">
+    </div>
+    <div ng-show="player2._id">
+      <p>
+        El player 2 es
+      </p>
+      <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
+      <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
+      <p>{{player2.username}}</p>
+      <h4>{{player1Actions}}</h4>
+    </div>
+
+</section>

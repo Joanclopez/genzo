@@ -1,8 +1,8 @@
 'use strict';
 
 // Games controller
-angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket',
-	function($scope, $stateParams, $location, Authentication, Games,Socket) {
+angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http',
+	function($scope, $stateParams, $location, Authentication, Games,Socket,$http) {
 		$scope.authentication = Authentication;
 
 
@@ -21,6 +21,14 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+			});
+		};
+		$scope.games=[];
+		$scope.getFightList=function(){
+			Socket.on('games', function(game) {
+					// console.log(game);
+					$scope.games.push(game);
+
 			});
 		};
 
@@ -56,20 +64,68 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 		$scope.find = function() {
 			$scope.games = Games.query(function(response){
 				console.log(response);
-				Socket.on('games', function(game) {
-						// console.log(game);
-						$scope.games.push(game);
+			});
+		};
 
-				});
-				console.log('check 1', Socket);
+		$scope.viewHolograms=function(){
+			Socket.on('holograms/', function(player) {
+					 console.log(player);
+					 if (player.player2) {
+						$scope.player2=player.player2;
+						Socket.on('player1/', function(actions) {
+							console.log(actions);
+							$scope.player1Actions=actions
+
+						});
+					 }
+					 if (player.player1) {
+						$scope.player1=player.player1;//si somos el player 1 escucharemos las acciones del player2
+						Socket.on('player2/', function(actions) {
+							console.log(actions);
+							$scope.player2Actions=actions
+
+						});
+					 }
 
 			});
 		};
 
+		$scope.player1Emit=function(){
+			console.log('estoy enviando');
+// 			console.log($scope.emitir);
+// console.log(Socket);
+// 			Socket.emit('/holograms/',{player1:'affdf'},function(result){
+// 				console.log(result);
+// 			});
+$http.post('/player1', {action:$scope.emitir}).success(function(response){
+	console.log(response);
+});
+
+		};
+
+		$scope.player2Emit=function(){
+			console.log($scope.emitir);
+			$http.post('/player2', {action:$scope.emitir}).success(function(response){
+				console.log(response);
+			});
+
+		};
+
 		// Find existing Game
+		$scope.player2={};
+		$scope.player1={};
 		$scope.findOne = function() {
 			$scope.game = Games.get({
 				gameId: $stateParams.gameId
+			},function(response){
+				console.log(response);
+				Socket.on('figthRoom/'+$stateParams.gameId, function(player) {
+						 console.log(player);
+						 if (player.player2) {
+						 	$scope.player2=player.player2;
+						 }
+
+				});
 			});
 		};
 

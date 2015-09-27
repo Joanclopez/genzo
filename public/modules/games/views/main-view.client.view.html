@@ -1,4 +1,4 @@
-<section data-ng-controller="GamesController" data-ng-init="find()">
+<section data-ng-controller="GamesController" data-ng-init="getFightList()">
 	<div ng-show="authentication.user.character=='Mew'" class="Character">
 	  <figure class="Character-imageContainer col-md-4">
       <img src="./modules/games/img/mew.PNG" alt="" class="Character-image" />
@@ -47,8 +47,10 @@
       </div>
       <div class="BattleRoom-characterContainer col-md-9">
         <figure class="BattleRoom-avatarContainer col-md-1">
-					<img ng-show="battle.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
-          <img ng-show="battle.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
+					<a href="/#!/fight/{{battle._id}}">
+						<img ng-show="battle.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
+	          <img ng-show="battle.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
+					</a>
         </figure>
         <span class="BattleRoom-name col-md-1">{{battle.playe1.character}}</span>
       </div>

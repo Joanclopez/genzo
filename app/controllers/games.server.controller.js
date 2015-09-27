@@ -27,11 +27,30 @@ exports.create = function(req, res) {
 				_id:game._id,
 				player1:req.user
 			};
-			console.log(figthRoom);
+			//console.log(figthRoom);
 			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
 			socketio.sockets.emit('games', figthRoom); // emit an event for all connected clients
 		}
 	});
+};
+
+exports.emitirPlayer1 = function(req, res) {
+
+// console.log(req.body);
+			//console.log(figthRoom);
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('player1/', req.body.action); // emit an event for all connected clients
+			res.jsonp({game:'eeeee'});
+};
+
+exports.emitirPlayer2 = function(req, res) {
+
+console.log(req.body);
+			//console.log(figthRoom);
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('player2/', req.body); // emit an event for all connected clients
+			res.jsonp({game:'eeeee'});
+
 };
 
 /**
@@ -96,22 +115,26 @@ exports.list = function(req, res) {
  * Game middleware
  */
 exports.gameByID = function(req, res, next, id) {
-	Game.findById(id).populate('user', 'displayName').exec(function(err, game) {
+	Game.findById(id).populate('player1').populate('player2').populate('winner').exec(function(err, game) {
 		if (err) return next(err);
 		if (! game) return next(new Error('Failed to load Game ' + id));
 		req.game = game ;
 		var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
 		var figthRoom={};
-		if (game.user._id===req.user._id) {
+		console.log(game.player1+' '+req.user._id);
+		if (game.player1._id+''===req.user._id+'') {
+			console.log('sonigualess');
 			figthRoom={
 				player1:req.user
 			};
 		}else{
+			console.log('nosonigualess');
 			figthRoom={
 				player2:req.user
 			};
 		};
 		socketio.sockets.emit('figthRoom/'+game._id, figthRoom);
+		socketio.sockets.emit('holograms/', figthRoom);
 		next();
 	});
 };
