@@ -4,20 +4,18 @@
 angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket',
 	function($scope, $stateParams, $location, Authentication, Games,Socket) {
 		$scope.authentication = Authentication;
-		Socket.on('action', function(action) {
-		    console.log(action);
-		});
+
 
 		// Create new Game
 		$scope.create = function() {
 			// Create new Game object
 			var game = new Games ({
-				name: this.name
+				player1: $scope.authentication.user._id
 			});
 
 			// Redirect after save
 			game.$save(function(response) {
-				$location.path('games/' + response._id);
+				$location.path('fight/' + response._id);
 
 				// Clear form fields
 				$scope.name = '';
@@ -56,7 +54,16 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 		// Find a list of Games
 		$scope.find = function() {
-			$scope.games = Games.query();
+			$scope.games = Games.query(function(response){
+				console.log(response);
+				Socket.on('games', function(game) {
+						// console.log(game);
+						$scope.games.push(game);
+
+				});
+				console.log('check 1', Socket);
+
+			});
 		};
 
 		// Find existing Game
@@ -66,6 +73,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			});
 		};
 
+<<<<<<< HEAD
 		$scope.mainView = function() {
 
 		}
@@ -74,6 +82,8 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			
 		}
 
+=======
+>>>>>>> 4a067f219d50a293a2df21a1bef591cdd460fe3c
 
 
 

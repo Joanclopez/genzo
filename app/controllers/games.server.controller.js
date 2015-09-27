@@ -13,7 +13,8 @@ var mongoose = require('mongoose'),
  */
 exports.create = function(req, res) {
 	var game = new Game(req.body);
-	game.user = req.user;
+	game.player1 = req.user;
+	//console.log(req.user);
 
 	game.save(function(err) {
 		if (err) {
@@ -22,8 +23,13 @@ exports.create = function(req, res) {
 			});
 		} else {
 			res.jsonp(game);
+			var figthRoom={
+				_id:game._id,
+				player1:req.user
+			};
+			console.log(figthRoom);
 			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
-			socketio.sockets.emit('action', game); // emit an event for all connected clients
+			socketio.sockets.emit('games', figthRoom); // emit an event for all connected clients
 		}
 	});
 };
@@ -75,7 +81,7 @@ exports.delete = function(req, res) {
  * List of Games
  */
 exports.list = function(req, res) {
-	Game.find().sort('-created').populate('user', 'displayName').exec(function(err, games) {
+	Game.find().sort('-created').populate('player1').populate('player2').populate('winner').exec(function(err, games) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -94,6 +100,18 @@ exports.gameByID = function(req, res, next, id) {
 		if (err) return next(err);
 		if (! game) return next(new Error('Failed to load Game ' + id));
 		req.game = game ;
+		var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+		var figthRoom={};
+		if (game.user._id===req.user._id) {
+			figthRoom={
+				player1:req.user
+			};
+		}else{
+			figthRoom={
+				player2:req.user
+			};
+		};
+		socketio.sockets.emit('figthRoom/'+game._id, figthRoom);
 		next();
 	});
 };

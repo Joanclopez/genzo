@@ -17,6 +17,10 @@ angular.module('games').config(['$stateProvider',
 			url: '/games/:gameId',
 			templateUrl: 'modules/games/views/view-game.client.view.html'
 		}).
+		state('fight', {
+			url: '/fight/:gameId',
+			templateUrl: 'modules/games/views/fight.client.view.html'
+		}).
 		state('editGame', {
 			url: '/games/:gameId/edit',
 			templateUrl: 'modules/games/views/edit-game.client.view.html'

@@ -64,7 +64,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 				user.$update(function(response) {
 					$scope.success = true;
 					Authentication.user = response;
-					$location.path('/');
+					$location.path('/games');
 				}, function(response) {
 					$scope.error = response.data.message;
 
