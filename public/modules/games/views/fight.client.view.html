@@ -11,16 +11,14 @@
       			<h2>{{game.player1.username}}</h2>
       		</div>
       		<figure class="PanelInformation-characterImage">
-            <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-            <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+            <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
 
       		</figure>
       		<div class="PanelInformation-status">
       			<h3>Life</h3>
       			<div class="progress">
-      				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-      					<span class="sr-only">40% Complete (success)</span>
-      				</div>
+              <progressbar animate="true" value="player1Life" type="success"><b>{{player1Life}}%</b></progressbar>
       			</div>
       		</div>
       		<div class="PanelInformation-skills">
@@ -36,8 +34,8 @@
       				</li>
       			</ul>
       			<div class="PanelInformation-exit">
-      				<button class="PanelInformation-button">
-      					Finish
+      				<button ng-click="player1Emit()"class="PanelInformation-button">
+      					Attack
       				</button>
       			</div>
       		</div>
@@ -56,16 +54,14 @@
         			<h2>{{player2.username}}</h2>
         		</div>
         		<figure class="PanelInformation-characterImage">
-              <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-              <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+              <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+              <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
 
         		</figure>
         		<div class="PanelInformation-status">
         			<h3>Life</h3>
         			<div class="progress">
-        				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-        					<span class="sr-only">40% Complete (success)</span>
-        				</div>
+                <progressbar animate="true" value="player2Life" type="success"><b>{{player2Life}}%</b></progressbar>
         			</div>
         		</div>
         		<div class="PanelInformation-skills">
@@ -81,9 +77,9 @@
         				</li>
         			</ul>
         			<div class="PanelInformation-exit">
-        				<button class="PanelInformation-button">
+        				<!-- <button class="PanelInformation-button">
         					Finish
-        				</button>
+        				</button> -->
         			</div>
         		</div>
 
@@ -92,22 +88,23 @@
       </div>
     </div>
 
+
+
+
     <div ng-show="game.player1._id!=authentication.user._id">
       <div class="PanelInformation col-md-3">
     		<div class="PanelInformation-characterName">
-    			<h2>{{player2.username}}</h2>
+    			<h2>{{authentication.user.username}}</h2>
     		</div>
     		<figure class="PanelInformation-characterImage">
-          <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-          <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+          <img ng-show="authentication.user.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+          <img ng-show="authentication.user.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
 
     		</figure>
     		<div class="PanelInformation-status">
     			<h3>Life</h3>
     			<div class="progress">
-    				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-    					<span class="sr-only">40% Complete (success)</span>
-    				</div>
+            <progressbar animate="true" value="player2Life" type="success"><b>{{player2Life}}%</b></progressbar>
     			</div>
     		</div>
     		<div class="PanelInformation-skills">
@@ -123,8 +120,8 @@
     				</li>
     			</ul>
     			<div class="PanelInformation-exit">
-    				<button class="PanelInformation-button">
-    					Finish
+    				<button ng-click="player2Emit()" class="PanelInformation-button">
+    					Attack
     				</button>
     			</div>
     		</div>
@@ -143,16 +140,14 @@
             <h2>{{game.player1.username}}</h2>
           </div>
           <figure class="PanelInformation-characterImage">
-            <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-            <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+            <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
+            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
 
           </figure>
           <div class="PanelInformation-status">
             <h3>Life</h3>
             <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=90 aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-                <span class="sr-only">40% Complete (success)</span>
-              </div>
+              <progressbar animate="true" value="player1Life" type="success"><b>{{player1Life}}%</b></progressbar>
             </div>
           </div>
           <div class="PanelInformation-skills">
@@ -168,9 +163,9 @@
               </li>
             </ul>
             <div class="PanelInformation-exit">
-              <button class="PanelInformation-button">
+              <!-- <button class="PanelInformation-button">
                 Finish
-              </button>
+              </button> -->
             </div>
           </div>
 
