@@ -449,7 +449,6 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 		$scope.authentication = Authentication;
 		$scope.player1Life=100;
 		$scope.player2Life=100;
-		startLeapService();
 
 		// Create new Game
 		$scope.create = function() {
@@ -598,6 +597,26 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				if (response.player1._id+''==$scope.authentication.user._id) {
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
+						if(actions.action == 1) {
+							$('#north').removeClass();
+							$('#north').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#south').removeClass();
+							$('#south').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#west').removeClass();
+							$('#west').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#east').removeClass();
+							$('#east').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+						} else if(actions.action == 2) {
+							$('#north').removeClass();
+							$('#north').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#south').removeClass();
+							$('#south').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#west').removeClass();
+							$('#west').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#east').removeClass();
+							$('#east').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+						}
+
 						$scope.player1Life=$scope.player1Life-(actions.danmage);
 						$scope.selectWinner();
 					});
@@ -616,9 +635,11 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 						 console.log(player);
 						 if (player.player2) {
 						 	$scope.player2=player.player2;
+
 						}
 
 				});
+
 			});
 
 		};
@@ -666,7 +687,7 @@ $scope.selectWinner=function(){
 		var flag = false
 		frameController.gestures.forEach(function(gesture) {
 			if(!flag) {
-						console.log($scope.authentication.user._id+' '+$scope.game.player1._id);
+						// console.log($scope.authentication.user._id+' '+$scope.game.player1._id);
 				switch (gesture.type) {
 					case 'circle':
 					console.log(gesture.type);

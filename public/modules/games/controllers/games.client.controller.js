@@ -154,6 +154,26 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				if (response.player1._id+''==$scope.authentication.user._id) {
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
+						if(actions.action == 1) {
+							$('#north').removeClass();
+							$('#north').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#south').removeClass();
+							$('#south').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#west').removeClass();
+							$('#west').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+							$('#east').removeClass();
+							$('#east').addClass("goku1").sprite({fps: 7, no_of_frames: 7});
+						} else if(actions.action == 2) {
+							$('#north').removeClass();
+							$('#north').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#south').removeClass();
+							$('#south').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#west').removeClass();
+							$('#west').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+							$('#east').removeClass();
+							$('#east').addClass("goku2").sprite({fps: 7, no_of_frames: 7});
+						}
+
 						$scope.player1Life=$scope.player1Life-(actions.danmage);
 						$scope.selectWinner();
 					});
@@ -172,10 +192,11 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 						 console.log(player);
 						 if (player.player2) {
 						 	$scope.player2=player.player2;
+
 						}
+						startLeapService();
 
 				});
-				startLeapService();
 
 			});
 
@@ -224,7 +245,7 @@ $scope.selectWinner=function(){
 		var flag = false
 		frameController.gestures.forEach(function(gesture) {
 			if(!flag) {
-						console.log($scope.authentication.user._id+' '+$scope.game.player1._id);
+						// console.log($scope.authentication.user._id+' '+$scope.game.player1._id);
 				switch (gesture.type) {
 					case 'circle':
 					console.log(gesture.type);
@@ -254,11 +275,3 @@ $scope.selectWinner=function(){
 
 		}
 ]);
-
-function changeSprite(actionNumber) {
-	if(actionNumber == 1) {
-		$('.spriteP1').addClass('goku2').sprite({fps: 7, no_of_frames: 7});
-	} else if(actionNumber == 2) {
-		$('.spriteP1').addClass('goku3').sprite({fps: 6, no_of_frames: 6});
-	}
-}
