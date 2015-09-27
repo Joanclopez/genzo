@@ -70,6 +70,10 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 		}
 
+		$scope.battle = function() {
+			
+		}
+
 
 
 

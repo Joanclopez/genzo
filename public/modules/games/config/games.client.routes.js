@@ -20,6 +20,10 @@ angular.module('games').config(['$stateProvider',
 		state('editGame', {
 			url: '/games/:gameId/edit',
 			templateUrl: 'modules/games/views/edit-game.client.view.html'
+		}).
+		state('battle', {
+			url: '/game/battle',
+			templateUrl: 'modules/games/views/battle-game.client.view.html'
 		});
 
 	}
