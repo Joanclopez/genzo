@@ -182,7 +182,9 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 						 if (player.player2) {
 						 	$scope.player2=player.player2;
 							startLeapService();
-						 }
+						} else {
+								startLeapService();
+						}
 
 				});
 			});
