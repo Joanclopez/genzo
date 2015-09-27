@@ -172,12 +172,11 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 						 console.log(player);
 						 if (player.player2) {
 						 	$scope.player2=player.player2;
-							startLeapService();
-						} else {
-								startLeapService();
 						}
 
 				});
+				startLeapService();
+
 			});
 
 		};
@@ -225,26 +224,23 @@ $scope.selectWinner=function(){
 		var flag = false
 		frameController.gestures.forEach(function(gesture) {
 			if(!flag) {
+						console.log($scope.authentication.user._id+' '+$scope.game.player1._id);
 				switch (gesture.type) {
-
 					case 'circle':
 					console.log(gesture.type);
 						action = 1;
-						if($scope.authentication.user._id == $scope.game.player1._id) {
-							$scope.player1Emit(action);
-						} else {
-							$scope.player2Emit(action);
-						}
 						break;
 					case 'keyTap':
 						action = 0;
-						if($scope.authentication.user._id == $scope.game.player1._id) {
-							$scope.player1Emit(action);
-						} else {
-							$scope.player2Emit(action);
-						}
 
 						break;
+				}
+				if($scope.authentication.user._id === $scope.game.player1._id) {
+					console.log('es el player 1');
+					$scope.player1Emit(action);
+				} else {
+					console.log('es el player 2');
+					$scope.player2Emit(action);
 				}
 			}
 
