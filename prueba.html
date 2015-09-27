@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>Handedness Demo</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r66/three.js"></script>
+    <script src="//js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <script src="//js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
+    <script src="//js.leapmotion.com/leap.rigged-hand-0.1.3.min.js"></script>
+
+    <style>
+      body{
+        font-family: 'Myriad Pro', Helvetica, Arial, 'Lucida Grande', sans-serif;
+        font-size: 24pt;
+        color: white;
+        background-color: #80b865;
+      }
+      label {
+        position: fixed;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+
+  <body id="body">
+      <h2 style="text-align:center">Mueve tus manitas :3</h2>
+      <h3>Movimiento realizado: <span id="movimiento"></span></h3>
+      <h3>Posicion: <span id="posicion"> </span></h3>
+         <h3 id="especial"></h3>
+    <div id="labels"></div>
+  </body>
+
+  <script type="text/javascript" class="codepen">
+    var riggedHandPlugin;
+
+    Leap.loop({
+      hand: function(hand){
+        var label = hand.data('label');
+        
+
+        if (!label){
+
+          label = document.createElement('label');
+          document.body.appendChild(label);
+
+          /**
+           * Here we set the label to show the hand type
+           */
+          label.innerHTML = hand.type + " hand";
+
+          hand.data('label', label)
+
+        }
+         var posicion = document.getElementById("posicion");
+          if( hand.type == 'left'){
+           document.body.style.backgroundColor = "red";
+           posicion.innerHTML="defensa";      
+          }
+          
+          if( hand.type == 'right'){
+           document.body.style.backgroundColor = "purple";
+           posicion.innerHTML= "Ataque"; 
+          }
+          
+          
+          
+
+
+        var handMesh = hand.data('riggedHand.mesh');
+
+        var screenPosition = handMesh.screenPosition(
+          hand.palmPosition,
+          riggedHandPlugin.camera
+        );
+
+        label.style.left = screenPosition.x + 'px';
+        label.style.bottom = screenPosition.y + 'px';
+
+      }
+    })
+    .use('riggedHand')
+    .use('handEntry')
+    .on('handLost', function(hand){
+        var label = hand.data('label');
+        if (label){
+          document.body.removeChild(label);
+          hand.data({label: undefined});
+        }
+    })
+   // .use('playback', {
+    //  recording: './left-or-right-77fps.json.lz',
+    //  timeBetweenLoops: 1000
+    //});
+
+    riggedHandPlugin = Leap.loopController.plugins.riggedHand;
+      
+      var controller = Leap.loop({enableGestures: true}, function(frame){
+  if(frame.valid && frame.gestures.length > 0){
+      var frame = controller.frame();
+      if(frame.hands.length == 2){document.getElementById('especial').innerHTML = "No seas tramposo carnal"} else if(frame.hands.length == 1){document.getElementById('especial').innerHTML = "Una manita carnal, mas que suficiente"}
+    frame.gestures.forEach(function(gesture){
+     var movimiento = document.getElementById("movimiento");    
+        switch (gesture.type){
+          case "circle":
+              movimiento.innerHTML = "circle"
+              break;
+          case "keyTap":
+                 movimiento.innerHTML = "Key tap"
+              break;
+          case "screenTap":
+                 movimiento.innerHTML = "Screentap"
+              break;
+          case "swipe":
+                 if(gesture.direction[0]<= 0){
+                     movimiento.innerHTML = "swipe left"
+                 } else {movimiento.innerHTML = "swipe right"; console.log()}
+              break;
+        }
+    });
+  }
+});
+
+  </script>
+</html>
