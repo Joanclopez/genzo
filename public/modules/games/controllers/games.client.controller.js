@@ -4,7 +4,8 @@
 angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http',
 	function($scope, $stateParams, $location, Authentication, Games,Socket,$http) {
 		$scope.authentication = Authentication;
-
+		$scope.player1Life=100;
+		$scope.player2Life=100;
 
 		// Create new Game
 		$scope.create = function() {
@@ -93,23 +94,52 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 		$scope.player1Emit=function(){
 			console.log('estoy enviando');
-// 			console.log($scope.emitir);
-// console.log(Socket);
-// 			Socket.emit('/holograms/',{player1:'affdf'},function(result){
-// 				console.log(result);
-// 			});
-$http.post('/player1', {action:$scope.emitir}).success(function(response){
-	console.log(response);
-});
+			// 			console.log($scope.emitir);
+			// console.log(Socket);
+			// 			Socket.emit('/holograms/',{player1:'affdf'},function(result){
+			// 				console.log(result);
+			// 			});
+			$scope.actionSprite=0;
+			console.log($scope.emitir);
+
+			$scope.emitir=$scope.danmage();
+			$scope.player2Life=$scope.player2Life-($scope.emitir*100);
+
+
+			$http.post('/player1', {action:
+				{
+				danmage:$scope.emitir,
+				action:$scope.actionSprite
+				}
+			}).success(function(response){
+				console.log(response);
+			});
 
 		};
 
 		$scope.player2Emit=function(){
+			$scope.emitir=$scope.danmage();
 			console.log($scope.emitir);
-			$http.post('/player2', {action:$scope.emitir}).success(function(response){
+			$scope.actionSprite=0;
+			$scope.player1Life=$scope.player1Life-($scope.emitir*100);
+			$http.post('/player2', {action:	{
+				danmage:$scope.emitir,
+				action:$scope.actionSprite
+				}
+			}).success(function(response){
 				console.log(response);
 			});
 
+		};
+
+		$scope.danmage=function(){
+			var danmage,acert;
+			// acert=Math.random();
+			// if (acert>=.5) {
+			danmage=Math.random();
+			// }
+			// console.log(acert);
+			return danmage;
 		};
 
 		// Find existing Game
@@ -119,6 +149,21 @@ $http.post('/player1', {action:$scope.emitir}).success(function(response){
 			$scope.game = Games.get({
 				gameId: $stateParams.gameId
 			},function(response){
+
+				if (response.player1._id+''==$scope.authentication.user._id) {
+					Socket.on('player2/', function(actions) {
+						console.log(actions);
+						$scope.player1Life=$scope.player1Life-(actions.danmage*100);
+					});
+				}else {
+					Socket.on('player1/', function(actions) {
+						console.log(actions);
+						$scope.player2Life=$scope.player2Life-(actions.danmage*100);
+
+					});
+
+				}
+
 				console.log(response);
 				Socket.on('figthRoom/'+$stateParams.gameId, function(player) {
 						 console.log(player);

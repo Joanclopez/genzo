@@ -115,7 +115,7 @@ exports.list = function(req, res) {
  * Game middleware
  */
 exports.gameByID = function(req, res, next, id) {
-	Game.findById(id).populate('player1').populate('player2').populate('winner').exec(function(err, game) {
+	Game.findById(id).populate('player1').populate('winner').exec(function(err, game) {
 		if (err) return next(err);
 		if (! game) return next(new Error('Failed to load Game ' + id));
 		req.game = game ;
