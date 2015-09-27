@@ -48,7 +48,7 @@ exports.emitirPlayer2 = function(req, res) {
 console.log(req.body);
 			//console.log(figthRoom);
 			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
-			socketio.sockets.emit('player2/', req.body); // emit an event for all connected clients
+			socketio.sockets.emit('player2/', req.body.action); // emit an event for all connected clients
 			res.jsonp({game:'eeeee'});
 
 };

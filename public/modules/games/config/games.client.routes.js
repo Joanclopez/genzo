@@ -24,6 +24,10 @@ angular.module('games').config(['$stateProvider',
 		state('fight', {
 			url: '/fight/:gameId',
 			templateUrl: 'modules/games/views/fight.client.view.html'
+		}).
+		state('battle', {
+			url: '/game/battle',
+			templateUrl: 'modules/games/views/battle-game.client.view.html'
 		});
 
 	}

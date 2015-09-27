@@ -57,8 +57,10 @@
 	</script>
 
 	<!--Application JavaScript Files-->
-	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
-
+	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>
+	{% endfor %}
+	<script src="//js.leapmotion.com/leap-0.6.4.js"></script>
+	<script src="//js.leapmotion.com/leap-plugins-0.1.11.js"></script>
 	{% if process.env.NODE_ENV === 'development' %}
 	<!--Livereload script rendered -->
 	<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>

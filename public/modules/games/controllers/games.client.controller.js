@@ -72,20 +72,21 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 					 console.log(player);
 					 if (player.player2) {
 						$scope.player2=player.player2;
-						Socket.on('player1/', function(actions) {
-							console.log(actions);
-							$scope.player1Actions=actions
 
-						});
 					 }
 					 if (player.player1) {
 						$scope.player1=player.player1;//si somos el player 1 escucharemos las acciones del player2
-						Socket.on('player2/', function(actions) {
-							console.log(actions);
-							$scope.player2Actions=actions
-
-						});
 					 }
+					 Socket.on('player1/', function(actions) {
+						 console.log(actions);
+						 $scope.player1Actions=actions
+
+					 });
+					 Socket.on('player2/', function(actions) {
+						 console.log(actions);
+						 $scope.player2Actions=actions
+
+					 });
 
 			});
 		};
@@ -128,6 +129,14 @@ $http.post('/player1', {action:$scope.emitir}).success(function(response){
 				});
 			});
 		};
+
+		$scope.mainView = function() {
+
+		}
+
+		$scope.battle = function() {
+
+		}
 
 
 
