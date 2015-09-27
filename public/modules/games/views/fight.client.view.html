@@ -1,3 +1,37 @@
 <section data-ng-controller="GamesController" data-ng-init="findOne()">
     <!-- <canvas id="testCanvas" width="960" height="400"></canvas> -->
+    <div ng-show="game.player1._id==authentication.user._id">
+      <div ng-show="!player2._id">
+        Esperando  segundo player
+        <img src="modules/core/img/loaders/loader.gif" alt="">
+      </div>
+      <div ng-show="player2._id">
+        <p>
+          El player 2 a llegado es
+        </p>
+        <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
+        <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
+        <p>{{player2.username}}</p>
+        <h3>Ya comenzo la pelea, ve el holograma</h3>
+        <label for="ejemplo_email_1">Ataque</label>
+        <input type="text" ng-model="emitir"class="form-control" id="ataque"
+         placeholder="ataque">
+         <button ng-click="player1Emit()" class="btn btn-default">enviar ataque</button>
+      </div>
+    </div>
+    <div ng-show="game.player1._id!=authentication.user._id">
+      <div>
+        <p>
+          El player 1 es
+        </p>
+        <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="BattleRoom-avatarImg" />
+        <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
+        <p>{{game.player1.username}}</p>
+        <h3>Ya comenzo la pelea, ve el holograma</h3>
+        <label for="ejemplo_email_1">Ataque</label>
+        <input type="text" ng-model="emitir"class="form-control" id="ataque"
+         placeholder="ataque">
+         <button ng-click="player2Emit()" class="btn btn-default">enviar ataque</button>
+      </div>
+    </div>
 </section>

@@ -14,6 +14,11 @@ module.exports = function(app) {
 		.put(users.requiresLogin, games.hasAuthorization, games.update)
 		.delete(users.requiresLogin, games.hasAuthorization, games.delete);
 
+		app.route('/player1')
+			.post(games.emitirPlayer1);
+		app.route('/player2')
+			.post(games.emitirPlayer2)
+
 	// Finish by binding the Game middleware
 	app.param('gameId', games.gameByID);
 };
