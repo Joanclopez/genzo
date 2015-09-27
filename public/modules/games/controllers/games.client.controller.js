@@ -210,5 +210,7 @@ $http.post('/player1', {action:$scope.emitir}).success(function(response){
 			}
 			stage.update(event);
 		}
+
+		$('.spriteP1').sprite({fps: 6, no_of_frames: 6});
 	}
 ]);

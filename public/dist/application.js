@@ -389,7 +389,7 @@ angular.module('core').factory('Socket', ['socketFactory',
     function(socketFactory) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect('http://localhost:3000')
+            ioSocket: io.connect('http://10.33.30.79:3000')
         });
     }
 ]);
@@ -417,21 +417,25 @@ angular.module('games').config(['$stateProvider',
 			url: '/games',
 			templateUrl: 'modules/games/views/main-view.client.view.html'
 		}).
-		state('createGame', {
-			url: '/games/create',
-			templateUrl: 'modules/games/views/create-game.client.view.html'
-		}).
 		state('viewGame', {
 			url: '/games/:gameId',
 			templateUrl: 'modules/games/views/view-game.client.view.html'
+		}).
+		state('hologram1', {
+			url: '/hologram1',
+			templateUrl: 'modules/games/views/display-hologram1.client.view.html'
+		}).
+		state('hologram2', {
+			url: '/hologram2',
+			templateUrl: 'modules/games/views/display-hologram2.client.view.html'
 		}).
 		state('fight', {
 			url: '/fight/:gameId',
 			templateUrl: 'modules/games/views/fight.client.view.html'
 		}).
-		state('editGame', {
-			url: '/games/:gameId/edit',
-			templateUrl: 'modules/games/views/edit-game.client.view.html'
+		state('battle', {
+			url: '/game/battle',
+			templateUrl: 'modules/games/views/battle-game.client.view.html'
 		});
 
 	}
@@ -440,8 +444,8 @@ angular.module('games').config(['$stateProvider',
 'use strict';
 
 // Games controller
-angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket',
-	function($scope, $stateParams, $location, Authentication, Games,Socket) {
+angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http',
+	function($scope, $stateParams, $location, Authentication, Games,Socket,$http) {
 		$scope.authentication = Authentication;
 
 
@@ -460,6 +464,14 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+			});
+		};
+		$scope.games=[];
+		$scope.getFightList=function(){
+			Socket.on('games', function(game) {
+					// console.log(game);
+					$scope.games.push(game);
+
 			});
 		};
 
@@ -495,22 +507,79 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 		$scope.find = function() {
 			$scope.games = Games.query(function(response){
 				console.log(response);
-				Socket.on('games', function(game) {
-						// console.log(game);
-						$scope.games.push(game);
+			});
+		};
 
-				});
-				console.log('check 1', Socket);
+		$scope.viewHolograms=function(){
+			Socket.on('holograms/', function(player) {
+					 console.log(player);
+					 if (player.player2) {
+						$scope.player2=player.player2;
+
+					 }
+					 if (player.player1) {
+						$scope.player1=player.player1;//si somos el player 1 escucharemos las acciones del player2
+					 }
+					 Socket.on('player1/', function(actions) {
+						 console.log(actions);
+						 $scope.player1Actions=actions
+
+					 });
+					 Socket.on('player2/', function(actions) {
+						 console.log(actions);
+						 $scope.player2Actions=actions
+
+					 });
 
 			});
+		};
+
+		$scope.player1Emit=function(){
+			console.log('estoy enviando');
+// 			console.log($scope.emitir);
+// console.log(Socket);
+// 			Socket.emit('/holograms/',{player1:'affdf'},function(result){
+// 				console.log(result);
+// 			});
+$http.post('/player1', {action:$scope.emitir}).success(function(response){
+	console.log(response);
+});
+
+		};
+
+		$scope.player2Emit=function(){
+			console.log($scope.emitir);
+			$http.post('/player2', {action:$scope.emitir}).success(function(response){
+				console.log(response);
+			});
+
 		};
 
 		// Find existing Game
+		$scope.player2={};
+		$scope.player1={};
 		$scope.findOne = function() {
 			$scope.game = Games.get({
 				gameId: $stateParams.gameId
+			},function(response){
+				console.log(response);
+				Socket.on('figthRoom/'+$stateParams.gameId, function(player) {
+						 console.log(player);
+						 if (player.player2) {
+						 	$scope.player2=player.player2;
+						 }
+
+				});
 			});
 		};
+
+		$scope.mainView = function() {
+
+		}
+
+		$scope.battle = function() {
+
+		}
 
 
 
@@ -584,8 +653,12 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			}
 			stage.update(event);
 		}
+
+		$('.spriteP1').sprite({fps: 6, no_of_frames: 6});
 	}
 ]);
+
+'use strict'
 
 'use strict';
 
