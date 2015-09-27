@@ -1,8 +1,8 @@
 'use strict';
 
 // Games controller
-angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http',
-	function($scope, $stateParams, $location, Authentication, Games,Socket,$http) {
+angular.module('games').controller('GamesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Games','Socket','$http','$timeout',
+	function($scope, $stateParams, $location, Authentication, Games,Socket,$http, $timeout) {
 		$scope.authentication = Authentication;
 		$scope.player1Life=100;
 		$scope.player2Life=100;
@@ -104,7 +104,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 
 			$scope.emitir=$scope.danmage();
 			$scope.player2Life=$scope.player2Life-($scope.emitir*100);
-
+			$scope.selectWinner();
 
 			$http.post('/player1', {action:
 				{
@@ -122,6 +122,7 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			console.log($scope.emitir);
 			$scope.actionSprite=0;
 			$scope.player1Life=$scope.player1Life-($scope.emitir*100);
+			$scope.selectWinner();
 			$http.post('/player2', {action:	{
 				danmage:$scope.emitir,
 				action:$scope.actionSprite
@@ -154,11 +155,13 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
 						$scope.player1Life=$scope.player1Life-(actions.danmage*100);
+						$scope.selectWinner();
 					});
 				}else {
 					Socket.on('player1/', function(actions) {
 						console.log(actions);
 						$scope.player2Life=$scope.player2Life-(actions.danmage*100);
+						$scope.selectWinner();
 
 					});
 
@@ -175,6 +178,20 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			});
 		};
 
+$scope.selectWinner=function(){
+
+	if($scope.player1Life<0){
+		$scope.winner="player2"
+		$timeout(function(){
+				$location.path('games');
+			}, 3000);
+	}else	if($scope.player2Life<0){
+			$scope.winner="player1"
+			$timeout(function(){
+					$location.path('games');
+				}, 3000);
+		};
+};
 		$scope.mainView = function() {
 
 		}
