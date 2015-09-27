@@ -5,7 +5,7 @@ angular.module('core').factory('Socket', ['socketFactory',
     function(socketFactory) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect('http://localhost:3000')
+            ioSocket: io.connect('http://10.33.30.79:3000')
         });
     }
 ]);

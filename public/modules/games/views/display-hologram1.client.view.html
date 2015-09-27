@@ -1,6 +1,6 @@
 <section data-ng-controller="GamesController" ng-init="viewHolograms()">
     <!-- <canvas id="testCanvas" width="960" height="400"></canvas> -->
-    <div ng-show="!player1._id">
+    <!-- <div ng-show="!player1._id">
       Esperando player1
       <img src="modules/core/img/loaders/loader.gif" alt="">
     </div>
@@ -12,6 +12,25 @@
       <img ng-show="player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="BattleRoom-avatarImg">
       <p>{{player1.username}}</p>
       <h4>{{player2Actions}}</h4>
+
+    </div> -->
+    <div class="row">
+      <div class="Fight-content">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="north" class="spriteP1"></div>
+        <div class="central row">
+          <div class="col-md-6 col-xs-6 central">
+            <div id="west" class="spriteP1"></div>
+          </div>
+          <div class="col-md-6 col-xs-6 central">
+            <div id="east" class="spriteP1"></div>
+          </div>
+        </div>
+        <div id="south" class="spriteP1"></div>
+      </div>
 
     </div>
 
