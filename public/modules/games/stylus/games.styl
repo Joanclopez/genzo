@@ -1,40 +1,120 @@
-.Character
-  margin-top 2em
-  overflow hidden
-  &-image
-    width 200px
-    height 200px
-  &-name
-    margin 1em
-  &-NameText
-    text-align center
-    font-size 2em
-    color blue
-.BattleRoom
-  display block
-  margin-top 2em
-  background-color white
-  overflow hidden
-  &-userInformation
-    overflow hidden
-    border-bottom 1px solid black
-  &-avatarImg
-    width 50px
-    height 50px
+//General
+.center
+  margin 0 auto
 
+
+
+//home
+.navbar
+  background-image none !important
+  border none !important
+  background-color rgba(4, 79,79, 0.75)
+.navbar-brand
+  color white !important
+  font-size 1.5em !important
+.navbar li a
+  color white !important
+
+section
+  display block
+  .bg
+    position relative
+    overflow hidden
+    width 100%
+    text-align center
+    top 0
+    left 0
+    bottom 0
+    right 0
+    img
+        position relative
+        z-index 1
+        width 100%
+        height auto
+        display block
+    div.text
+        position absolute
+        z-index 2
+        width 100%
+        display block
+        top 0
+        right 0
+        bottom 0
+        left 0
+        text-align center
+        div.vertical
+            vertical-align middle
+            margin 25% auto
+            div.center
+                margin-right auto
+                margin-left auto
+                float none
+                h2
+                    font-family inherit
+                    color white
+
+
+
+//games url view
+.view-content
+  background-color #cedddd
+.title
+  h1
+    text-align center
+    color white
+.Character-imageContainer
+  width 100%
+  margin-top 25px
+  div
+    width 300px
+    height 300px
+    margin 0 auto
+    img
+      width 100%
+      height 100%
+      border-radius 100%
+      border 8px solid #044f4f
+.Character-NameText
+    text-align center !important
+    font-size 18px
+    margin-top 25px
+.btn-green
+  width 50%
+  margin-left 25%
+  background-color #437B7B
+  color white
+
+.BattleRoom-userInformation
+  width 60%
+  height 150px
+  margin-left 20%
+  background-color #7ea5a4
+  border-radius 50px
+  margin-top 15px
+.BattleRoom-avatarImg
+  width 150px
+  height 150px
+.BattleRoom-name
+  text-align center !important
+  font-size 18px !important
+
+//Fight view
+.PanelBattle
+  background-color #CEDDDD
+  height 100vh !important
+#loading
+  width 30px
+  background-color #CEDDDD
+.PanelInformation-img
+  width 200px
 .PanelInformation
   text-align center
-  &-characterImage
-    margin 2em 0
-  &-img
-    width 200px
-    height 200px
-.PanelBattle
-  &-attack
-    margin 13em
-  &-text
-    font-size 5em
-
+  background-color #CEDDDD
+  height 100vh !important
+.PanelInformatino-itemSkill
+  text-align left
+  color black
+//hologram
 .Fight-content
   width: 100%
   height: 100vh
@@ -43,7 +123,6 @@
     width 122px
     height 142px
     //background-image url('../modules/games/img/goku1.png')
-    background-image url('../img/goku1.png')
   #north
     margin 0 auto
     transform rotate(180deg)
@@ -56,3 +135,42 @@
       transform rotate(-90deg)
   #south
     margin 0 auto
+.goku1 {
+  width: 7.08em;
+  height: 142px;
+  background-image: url('../img/dabura_stay.png');
+}
+.goku2 {
+  width: 192px;
+  height: 170px;
+  background-image: url('../img/goku_attack1.png')
+}
+.goku3 {
+  width: 7.20em;
+  height: 142px;
+  background-image: url('../img/goku_attack2.png');
+}
+.goku4
+  width 10.63em;
+  height: 170px;
+  background-image: url('../img/goku_down.png');
+.dabura1 {
+  width: 7em;
+  height: 165px;
+  background-image: url('dabura_stay.png');
+}
+.dabura2 {
+  width: 8.65em;
+  height: 160px;
+  background-image: url('dabura_attack1.png')
+}
+.dabura3 {
+  width: 8.85em;
+  height: 170px;
+  background-image: url('dabura_attack2.png');
+}
+.dabura4 {
+  width: 10.63em;
+  height: 170px;
+  background-image: url('dabura_attack3.png');
+}

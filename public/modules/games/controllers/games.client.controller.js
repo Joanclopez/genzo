@@ -254,3 +254,11 @@ $scope.selectWinner=function(){
 
 		}
 ]);
+
+function changeSprite(actionNumber) {
+	if(actionNumber == 1) {
+		$('.spriteP1').addClass('goku2').sprite({fps: 7, no_of_frames: 7});
+	} else if(actionNumber == 2) {
+		$('.spriteP1').addClass('goku3').sprite({fps: 6, no_of_frames: 6});
+	}
+}

@@ -1,21 +1,20 @@
-<section data-ng-controller="GamesController" data-ng-init="findOne()">
+<section class="view-content" data-ng-controller="GamesController" data-ng-init="findOne()">
     <!-- <canvas id="testCanvas" width="960" height="400"></canvas> -->
   <div ng-show="!winner">
     <div ng-show="game.player1._id==authentication.user._id">
       <div ng-show="!player2._id">
         Esperando  segundo player
-        <img src="modules/core/img/loaders/loader.gif" alt="">
+        <img id="loading" src="modules/core/img/loaders/loader.gif" alt="">
       </div>
       <div ng-show="player2._id">
         <div class="PanelInformation col-md-3">
       		<div class="PanelInformation-characterName">
       			<h2>{{game.player1.username}}</h2>
       		</div>
-      		<figure class="PanelInformation-characterImage">
+      		<div class="PanelInformation-characterImage">
             <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
-
-      		</figure>
+            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/Dabura.PNG" alt="" class="PanelInformation-img">
+      		</div>
       		<div class="PanelInformation-status">
       			<h3>Life</h3>
       			<div class="progress">
@@ -45,7 +44,7 @@
         <div class="PanelBattle col-md-6">
       			<div class="PanelBattle-attack">
       				<span class="PanelBattle-text">
-      						Psyco Attack
+
       				</span>
       			</div>
       	</div>
@@ -56,7 +55,7 @@
         		</div>
         		<figure class="PanelInformation-characterImage">
               <img ng-show="player2.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-              <img ng-show="player2.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+              <img ng-show="player2.character=='Mew'" src="./modules/games/img/Dabura.PNG" alt="" class="PanelInformation-img">
 
         		</figure>
         		<div class="PanelInformation-status">
@@ -131,7 +130,7 @@
       <div class="PanelBattle col-md-6">
           <div class="PanelBattle-attack">
             <span class="PanelBattle-text">
-                Psyco Attack
+
             </span>
           </div>
       </div>
@@ -142,7 +141,7 @@
           </div>
           <figure class="PanelInformation-characterImage">
             <img ng-show="game.player1.character=='Goku'" src="./modules/games/img/Goku.png" alt="" class="PanelInformation-img" />
-            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/mew.PNG" alt="" class="PanelInformation-img">
+            <img ng-show="game.player1.character=='Mew'" src="./modules/games/img/dabura.PNG" alt="" class="PanelInformation-img">
 
           </figure>
           <div class="PanelInformation-status">
@@ -153,7 +152,10 @@
           </div>
           <div class="PanelInformation-skills">
             <ul class="PanelInformation-listSkills">
-              <li class="PanelInformatino-itemSkill">
+              <li class="PanelInformatino-itemSkill" ng-show="game.player1.character=='Goku'">
+                Kame hame ha - circle
+              </li>
+              <li class="PanelInformatino-itemSkill" ng-show="game.player1.character=='Goku'">
                 Psyco - circle
               </li>
               <li class="PanelInformatino-itemSkill">
