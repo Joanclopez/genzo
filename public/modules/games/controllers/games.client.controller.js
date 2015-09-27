@@ -128,6 +128,7 @@ $http.post('/player1', {action:$scope.emitir}).success(function(response){
 
 				});
 			});
+
 		};
 
 		$scope.mainView = function() {
@@ -214,3 +215,30 @@ $http.post('/player1', {action:$scope.emitir}).success(function(response){
 		$('.spriteP1').sprite({fps: 6, no_of_frames: 6});
 	}
 ]);
+
+	function startLeapService() {
+		var action;
+		var controller = Leap.loop({enableGestures: true}, function(frame) {
+
+			if(frame.valid && frame.gestures.length > 0) {
+				var otherFrame = controller.frame();
+				if(otherFrame.hands.length == 1) {
+					console.log(typeAttack(otherFrame));
+				}
+			}
+		});
+	}
+
+	function typeAttack(frameController) {
+		var action;
+		var flag = false
+		frameController.gestures.forEach(function(gesture) {
+			if(!flag) {
+					console.log(gesture.type);
+					action = gesture.type;
+			}
+
+		});
+		flag = true;
+		return action;
+	}
