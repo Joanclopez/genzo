@@ -99,13 +99,19 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 			// 			Socket.emit('/holograms/',{player1:'affdf'},function(result){
 			// 				console.log(result);
 			// 			});
+			$scope.actionSprite=0;
 			console.log($scope.emitir);
 
 			$scope.emitir=$scope.danmage();
 			$scope.player2Life=$scope.player2Life-($scope.emitir*100);
 
 
-			$http.post('/player1', {action:$scope.emitir}).success(function(response){
+			$http.post('/player1', {action:
+				{
+				danmage:$scope.emitir,
+				action:$scope.actionSprite
+				}
+			}).success(function(response){
 				console.log(response);
 			});
 
@@ -114,9 +120,13 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 		$scope.player2Emit=function(){
 			$scope.emitir=$scope.danmage();
 			console.log($scope.emitir);
-
+			$scope.actionSprite=0;
 			$scope.player1Life=$scope.player1Life-($scope.emitir*100);
-			$http.post('/player2', {action:$scope.emitir}).success(function(response){
+			$http.post('/player2', {action:	{
+				danmage:$scope.emitir,
+				action:$scope.actionSprite
+				}
+			}).success(function(response){
 				console.log(response);
 			});
 
@@ -143,12 +153,12 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				if (response.player1._id+''==$scope.authentication.user._id) {
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
-						$scope.player1Life=$scope.player1Life-(actions*100);
+						$scope.player1Life=$scope.player1Life-(actions.danmage*100);
 					});
 				}else {
 					Socket.on('player1/', function(actions) {
 						console.log(actions);
-						$scope.player2Life=$scope.player2Life-(actions*100);
+						$scope.player2Life=$scope.player2Life-(actions.danmage*100);
 
 					});
 
