@@ -154,15 +154,6 @@ angular.module('games').controller('GamesController', ['$scope', '$stateParams',
 				if (response.player1._id+''==$scope.authentication.user._id) {
 					Socket.on('player2/', function(actions) {
 						console.log(actions);
-						if((actions.action == 1) && ($scope.player1.character == 'Goku')) {
-							$('.spriteP1').removeClass();
-							$('.spriteP1').addClass("goku2");
-							$('.spriteP1').script({fps: 7, no_of_frames: 7});
-						} else if ((actions.action == 1) && ($scope.player1.character == 'mew')) {
-							$('.spriteP1').removeClass();
-							$('.spriteP1').addClass("goku3");
-							$('.spriteP1').script({fps: 6, no_of_frames: 6});
-						}
 						$scope.player1Life=$scope.player1Life-(actions.danmage);
 						$scope.selectWinner();
 					});
@@ -267,3 +258,11 @@ $scope.selectWinner=function(){
 
 		}
 ]);
+
+function changeSprite(actionNumber) {
+	if(actionNumber == 1) {
+		$('.spriteP1').addClass('goku2').sprite({fps: 7, no_of_frames: 7});
+	} else if(actionNumber == 2) {
+		$('.spriteP1').addClass('goku3').sprite({fps: 6, no_of_frames: 6});
+	}
+}
